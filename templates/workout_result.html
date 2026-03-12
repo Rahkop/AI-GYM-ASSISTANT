@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workout Summary</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            padding: 40px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 14px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        h2 {
+            color: #38bdf8;
+            margin-top: 30px;
+        }
+
+        ul {
+            margin-top: 10px;
+        }
+
+        button {
+            background: #38bdf8;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .risk-low {
+            color: #22c55e;
+        }
+
+        .risk-high {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h1>🏋 Workout Summary</h1>
+
+    <p><strong>Total Reps:</strong> {{ reps }}</p>
+    <p><strong>Performance Score:</strong> {{ avg_score }}</p>
+    <p><strong>Calories Burned:</strong> {{ calories }}</p>
+
+    <h2>🧠 Habit Risk Analysis</h2>
+    <p>
+        <strong>Risk Score:</strong>
+        {% if risk < 0.5 %}
+            <span class="risk-low">{{ risk }} (Low Risk - Keep Going 💪)</span>
+        {% else %}
+            <span class="risk-high">{{ risk }} (High Risk - Stay Consistent ⚠)</span>
+        {% endif %}
+    </p>
+
+    <h2>📊 AI Performance Feedback</h2>
+    <ul>
+        {% for f in feedback %}
+            <li>{{ f }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if grocery_list %}
+    <h2>🥗 Recommended Grocery List</h2>
+    <ul>
+        {% for item in grocery_list %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <br>
+    <a href="/dashboard">
+        <button>Back to Dashboard</button>
+    </a>
+
+</div>
+
+</body>
+</html>

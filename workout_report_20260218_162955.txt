@@ -1,0 +1,14 @@
+
+==============================
+        WORKOUT REPORT
+==============================
+Date: 2026-02-18 16:29
+
+Exercise: curl
+Total Reps: 15
+Duration: 2 minutes
+
+Performance Score: 92 %
+
+Estimated Calories Burned: 16 kcal
+==============================

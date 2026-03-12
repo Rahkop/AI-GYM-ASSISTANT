@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Fitness Intelligence Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            color: #38bdf8;
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+
+        .card h2 {
+            color: #38bdf8;
+            margin-top: 0;
+        }
+
+        button {
+            background: #38bdf8;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .chart-card {
+            margin-top: 30px;
+        }
+
+        .footer-buttons {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>AI Fitness Intelligence</h2>
+    <div>
+        <a href="/chat">Virtual Coach</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Dashboard Overview</h1>
+
+    <div class="grid">
+
+        <!-- AI Gym Trainer -->
+        <div class="card">
+            <h2>AI Gym Trainer</h2>
+            <p><strong>Total Reps:</strong> {{ total_reps }}</p>
+            <p><strong>Avg Performance Score:</strong> {{ avg_score }}</p>
+            <a href="/workout">
+                <button>Start Workout</button>
+            </a>
+        </div>
+
+        <!-- AI Dietician -->
+        <div class="card">
+            <h2>AI Dietician</h2>
+            <p><strong>BMI:</strong> {{ diet.bmi }}</p>
+            <p><strong>Calories:</strong> {{ diet.calories }}</p>
+            <p><strong>Protein:</strong> {{ diet.protein }} g</p>
+            <p><strong>Carbs:</strong> {{ diet.carbs }} g</p>
+            <p><strong>Fats:</strong> {{ diet.fat }} g</p>
+        </div>
+
+        <!-- Habit Risk -->
+        <div class="card">
+            <h2>Habit Risk Predictor</h2>
+            <p><strong>Risk Score:</strong> {{ risk }}</p>
+            <p>
+                {% if risk != "N/A" %}
+                    {% if risk < 0.5 %}
+                        Low Risk – Keep Consistency 💪
+                    {% else %}
+                        High Risk – Improve Discipline ⚠
+                    {% endif %}
+                {% else %}
+                    No Data Yet
+                {% endif %}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Performance Chart -->
+    <div class="card chart-card">
+        <h2>Performance Trend</h2>
+        <canvas id="scoreChart"></canvas>
+    </div>
+
+    <div class="footer-buttons">
+        <a href="/download-report">
+            <button>Download Fitness Report</button>
+        </a>
+    </div>
+
+</div>
+
+<script>
+new Chart(document.getElementById('scoreChart'), {
+    type: 'line',
+    data: {
+        labels: {{ labels | safe }},
+        datasets: [{
+            label: 'Performance Score',
+            data: {{ scores | safe }},
+            borderColor: '#38bdf8',
+            tension: 0.3
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
