@@ -3,10 +3,13 @@ from database import db
 from models import User, WorkoutSession, HabitRisk, DietPlan
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from habit_model import predict_risk
-from pose_analyzer import analyze_workout
 from diet_engine import calculate_diet
 from chat_engine import generate_response
 from datetime import datetime
+try:
+    from pose_analyzer import analyze_workout
+except:
+    analyze_workout = None
 
 import matplotlib.pyplot as plt
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
@@ -200,7 +203,15 @@ def start_workout():
 
     exercise = request.form["exercise"]
 
+    if analyze_workout:
     result = analyze_workout(exercise)
+    else:
+    result = {
+        "reps": 10,
+        "avg_score": 80,
+        "calories": 50,
+        "feedback": ["Cloud demo mode – pose detection disabled."]
+    }
 
     session = WorkoutSession(
         user_id=current_user.id,
