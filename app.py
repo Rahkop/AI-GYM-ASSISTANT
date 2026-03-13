@@ -204,14 +204,14 @@ def start_workout():
     exercise = request.form["exercise"]
 
     if analyze_workout:
-    result = analyze_workout(exercise)
+        result = analyze_workout(exercise)
     else:
-    result = {
-        "reps": 10,
-        "avg_score": 80,
-        "calories": 50,
-        "feedback": ["Cloud demo mode – pose detection disabled."]
-    }
+        result = {
+            "reps": 10,
+            "avg_score": 80,
+            "calories": 50,
+            "feedback": ["Cloud demo mode – pose detection disabled."]
+        }
 
     session = WorkoutSession(
         user_id=current_user.id,
