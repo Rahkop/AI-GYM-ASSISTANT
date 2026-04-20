@@ -1,4 +1,3 @@
-
 AI-Powered Gym Assistant
 
 An intelligent full-stack AI fitness system that combines computer vision, machine learning, and web technologies to provide real-time workout tracking, performance analysis, diet recommendations, and personalized fitness guidance.
