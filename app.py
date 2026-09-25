@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, send_file
 from database import db
 from models import User, WorkoutSession, HabitRisk, DietPlan
@@ -18,7 +19,7 @@ from reportlab.lib.pagesizes import letter
 
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-only-change-me")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///fitness.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -63,13 +64,13 @@ def register():
 
         user = User(
             username=request.form["username"],
-            password=request.form["password"],
             height=float(request.form["height"]),
             weight=float(request.form["weight"]),
             age=int(request.form["age"]),
             goal=request.form["goal"],
             activity_level=request.form["activity_level"]
         )
+        user.set_password(request.form["password"])
 
         db.session.add(user)
         db.session.commit()
@@ -85,11 +86,10 @@ def register():
 def login():
     if request.method == "POST":
         user = User.query.filter_by(
-            username=request.form["username"],
-            password=request.form["password"]
+            username=request.form["username"]
         ).first()
 
-        if user:
+        if user and user.check_password(request.form["password"]):
             login_user(user)
             return redirect("/dashboard")
 
